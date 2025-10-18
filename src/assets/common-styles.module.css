@@ -1,0 +1,55 @@
+.textContainer {
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 500;
+}
+.resultContainer {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+.mainContainer {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.prev {
+  position: absolute;
+  top: 180px;
+  left: 7px;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
+.next {
+  position: absolute;
+  top: 180px;
+  right: 7px;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
+
+.slick-slide {
+  padding: 0 10px;
+}
+
+.slick-dots li {
+  margin: -20px 0 !important;
+}

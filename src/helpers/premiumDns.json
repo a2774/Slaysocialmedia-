@@ -1,0 +1,146 @@
+[
+  {
+    "name": ".web24",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "30.00",
+      "valueStringed": "30",
+      "amount": 30
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".ladolcevita",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "30.00",
+      "valueStringed": "30",
+      "amount": 30
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".mama",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "15.00",
+      "valueStringed": "15",
+      "amount": 15
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".w3b",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "10.00",
+      "valueStringed": "10",
+      "amount": 10
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".ultra",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "10.00",
+      "valueStringed": "10",
+      "amount": 10
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".gam3r",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "7.80",
+      "valueStringed": "7.8",
+      "amount": 7.8
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".4climate",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "5.00",
+      "valueStringed": "5",
+      "amount": 5
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".disrupt",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "5.00",
+      "valueStringed": "5",
+      "amount": 5
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".nftartist",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "5.00",
+      "valueStringed": "5",
+      "amount": 5
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".chinaverse",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "5.00",
+      "valueStringed": "5",
+      "amount": 5
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".w5",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "5.00",
+      "valueStringed": "5",
+      "amount": 5
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  },
+  {
+    "name": ".xnfts",
+    "type": "TLD",
+    "price": {
+      "currency": "USD",
+      "valueFormatted": "5.00",
+      "valueStringed": "5",
+      "amount": 5
+    },
+    "premium": true,
+    "description": "HOME_ITEM_STARTING_AT"
+  }
+]

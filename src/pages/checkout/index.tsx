@@ -32,6 +32,7 @@ import {
   TextField,
   Typography,
   List,
+  debounce,
 } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -104,51 +105,53 @@ const Profile = () => {
 
   // const domainNames = cartItems.map((item: any) => item.name);
 
+  const [errorCause, setErrorCause] = useState<string | null>(null);
+
   const onPayment = async () => {
-    // if (!address) openWalletConnect();
-    debugger;
     setPaymentLoading(true);
+    setErrorCause(null); // reset any previous error
+
     const cart = getCartFromLocalStorage();
     const domains = cart.map((item: any) => item.name);
     const royalties = getSelectedRoyaltiesFromLocalStorage().map((name: string) => ({
-      name: name,
-      isRoyaltiesEnable: true, // Since these are selected, set to true
+      name,
+      isRoyaltiesEnable: true,
     }));
 
     try {
-      // if (finalamount > 0) {
       const response = await axiosInstance.post(`${BASE_URL}/freename/buyZones`, {
         zones: domains,
         royalties: royalties,
         referralCoupon: getDiscountFromLocalStorage() === 0 ? '' : getCouponFromLocalStorage(),
         discountPercentage: getDiscountFromLocalStorage() === '' ? 0 : getDiscountFromLocalStorage(),
-
         return_url: `${LOCAL_FRONTEND_URL}/domain`,
         cancel_url: `${LOCAL_FRONTEND_URL}/domain`,
       });
-      console.log('response', response);
+
       if (response.data.url) {
-        debugger;
-        console.log('here', response.data.url);
         window.location.href = response.data.url;
-        setPaymentLoading(false);
-        //redirect to response.data.url and whatever after success i m getting returnurl?token ad i need to call capture event api by passing token as payload
       }
     } catch (error: any) {
-      console.error('Payment failed:', error);
-      setPaymentLoading(false);
+      console.error('Payment failed:', error?.response?.data);
+      const cause = error?.response?.data?.cause;
+      console.log('### API error cause:', cause);
+
+      setErrorCause(cause || null);
+
       const errorMsg = error?.response?.data?.message || error?.message || 'Something went wrong, please try again!';
 
       toast.error(errorMsg, {
         position: 'top-right',
         autoClose: 4000,
         hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
         theme: 'colored',
         style: { marginTop: '100px' },
       });
+
+      // Auto-hide error buttons after 5 seconds
+      setTimeout(() => {
+        setErrorCause(null);
+      }, 5000);
     } finally {
       setPaymentLoading(false);
     }
@@ -227,6 +230,7 @@ const Profile = () => {
   const { cart } = useSelector((state: any) => state.user);
 
   const getProfile = async () => {
+    debugger;
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(`${BASE_URL}/user/get-details/`);
@@ -234,6 +238,7 @@ const Profile = () => {
       setProfileData(response.data.data);
       //   setDomainsList(response.data.domains);
     } catch (e) {
+      debugger;
       if (axios.isAxiosError(e)) {
         const errorMessage = e.response?.data?.message || 'An unknown error occurred';
 
@@ -282,6 +287,7 @@ const Profile = () => {
   if (!isClient) {
     return null;
   }
+
   return (
     <Layout isCart={false}>
       <section>
@@ -591,7 +597,7 @@ const Profile = () => {
                         padding: "6px 12px",
                       }}
                     >
-                      <label>
+                      <label> 
                         <input
                           type="radio"
                           value="adyen"
@@ -629,7 +635,7 @@ const Profile = () => {
                       </label>
                     </div> */}
                         </div>
-
+                        {/* Complete Payment Button */}
                         <Button
                           variant='contained'
                           type='submit'
@@ -642,21 +648,47 @@ const Profile = () => {
                             height: '50px',
                           }}
                           onClick={onPayment}>
-                          {/* <button className="gradient-btn" onClick={onPayment}> */}
                           {paymentLoading ? (
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                // width: "36px",
-                                // height: "36px",
-                              }}>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
                               <CircularProgress />
                             </div>
                           ) : (
-                            ' Complete Payment'
+                            'Complete Payment'
                           )}
                         </Button>
+
+                        {/* Conditionally show error-related buttons BELOW Complete Payment */}
+                        {!paymentLoading && errorCause === 'billingInfo' && (
+                          <Button
+                            variant='contained'
+                            sx={{
+                              backgroundColor: 'orange',
+                              color: 'white',
+                              fontWeight: 700,
+                              width: '200px',
+                              height: '50px',
+                              marginTop: '10px',
+                            }}
+                            onClick={() => router.push('/billing-info')}>
+                            Fix Billing Info
+                          </Button>
+                        )}
+
+                        {!paymentLoading && errorCause?.toLowerCase().includes('wallet') && (
+                          <Button
+                            variant='contained'
+                            sx={{
+                              backgroundColor: 'purple',
+                              color: 'white',
+                              fontWeight: 700,
+                              width: '200px',
+                              height: '50px',
+                              marginTop: '10px',
+                            }}
+                            onClick={() => router.push('/update-wallet-address')}>
+                            Fix Wallet Info
+                          </Button>
+                        )}
                       </Box>
                     </div>
                   </div>

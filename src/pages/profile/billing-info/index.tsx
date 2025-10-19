@@ -11,7 +11,7 @@ import BillingInfo from '@/components/billing-info';
 import UpdateWalletAddress from '@/components/update-wallet-address';
 import UpdatePassword from '@/components/update-password';
 
-const Profile = () => {
+const BillingPage = () => {
   const router = useRouter();
   const { domain: domainName, uuid } = router.query;
   const [selectedOption, setSelectedOption] = useState('option1');
@@ -651,4 +651,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default BillingPage;

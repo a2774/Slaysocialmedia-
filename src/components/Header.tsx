@@ -103,20 +103,32 @@ const Header = ({ setFunction, isSearchComponent, cart, isCart = true }: any) =>
 
   const router = useRouter();
 
-  const onDisconnectClickHandler = async () => {
-    // await dispatch(onDisconnect());
-    setAddressValue('');
-    setAnchorElConnectWallet(null);
-    disconnect();
-  };
-
-  // const onConnectWallet = async () => {
-  //   if (!address) {
-  //     openWallet();
-  //     if (address) {
-  //     }
-  //   }
+  // const onDisconnectClickHandler = async () => {
+  //   // await dispatch(onDisconnect());
+  //   setAddressValue('');
+  //   setAnchorElConnectWallet(null);
+  //   disconnect();
   // };
+
+  const onDisconnectClickHandler = async () => {
+    try {
+      await axiosInstance.post('/user/update-walletAddress', { walletAddress: '0x0' });
+      console.log('Wallet address removed successfully from database');
+
+      disconnect();
+
+      setAddressValue('');
+      setAnchorElConnectWallet(null);
+
+      toast.info('Wallet disconnected successfully', {
+        position: 'top-right',
+        style: { top: '120px' },
+      });
+    } catch (err) {
+      console.error('Error removing wallet address:', err);
+      toast.error('Failed to remove wallet address. Try again.');
+    }
+  };
 
   const onConnectWallet = async () => {
     if (!isConnected) {

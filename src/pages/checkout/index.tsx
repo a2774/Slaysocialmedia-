@@ -108,6 +108,7 @@ const Profile = () => {
   const [errorCause, setErrorCause] = useState<string | null>(null);
 
   const onPayment = async () => {
+    debugger;
     setPaymentLoading(true);
     setErrorCause(null); // reset any previous error
 
@@ -119,6 +120,7 @@ const Profile = () => {
     }));
 
     try {
+      debugger;
       const response = await axiosInstance.post(`${BASE_URL}/freename/buyZones`, {
         zones: domains,
         royalties: royalties,
@@ -132,6 +134,7 @@ const Profile = () => {
         window.location.href = response.data.url;
       }
     } catch (error: any) {
+      debugger;
       console.error('Payment failed:', error?.response?.data);
       const cause = error?.response?.data?.cause;
       console.log('### API error cause:', cause);
@@ -160,6 +163,33 @@ const Profile = () => {
   const [discountPerc, setDiscountPerc] = useState(0);
   const [finalamount, setFinalamount] = useState(0);
   const [isReferralCodeValid, setReferralCodeValid] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!paymentLoading && errorCause) {
+      if (errorCause === 'billingInfo') {
+        toast.warn('Billing information missing. Redirecting to Billing Info...', {
+          position: 'top-right',
+          autoClose: 3000,
+          style: { top: '120px' },
+        });
+
+        setTimeout(() => {
+          router.push('/profile/billing-info?section=option2');
+        }, 3000);
+      } else if (errorCause?.toLowerCase().includes('wallet')) {
+        toast.warn('Wallet information incomplete. Redirecting to Wallet Info...', {
+          position: 'top-right',
+          autoClose: 3000,
+          style: { top: '120px' },
+        });
+
+        setTimeout(() => {
+          router.push('/profile?section=option3');
+        }, 3000);
+      }
+    }
+  }, [errorCause, paymentLoading, router]);
 
   const validatePromoCode = useCallback(
     async (code?: string) => {
@@ -267,7 +297,6 @@ const Profile = () => {
   }, []);
 
   console.log('#profileData', profileData);
-  const router = useRouter();
 
   useEffect(() => {
     const cartDataLength = cart.length;
@@ -658,7 +687,7 @@ const Profile = () => {
                         </Button>
 
                         {/* Conditionally show error-related buttons BELOW Complete Payment */}
-                        {!paymentLoading && errorCause === 'billingInfo' && (
+                        {/* {!paymentLoading && errorCause === 'billingInfo' && (
                           <Button
                             variant='contained'
                             sx={{
@@ -669,12 +698,12 @@ const Profile = () => {
                               height: '50px',
                               marginTop: '10px',
                             }}
-                            onClick={() => router.push('/billing-info')}>
+                            onClick={() => router.push('/profile/billing-info?section=option2')}>
                             Fix Billing Info
                           </Button>
-                        )}
+                        )} */}
 
-                        {!paymentLoading && errorCause?.toLowerCase().includes('wallet') && (
+                        {/* {!paymentLoading && errorCause?.toLowerCase().includes('wallet') && (
                           <Button
                             variant='contained'
                             sx={{
@@ -685,10 +714,10 @@ const Profile = () => {
                               height: '50px',
                               marginTop: '10px',
                             }}
-                            onClick={() => router.push('/update-wallet-address')}>
+                            onClick={() => router.push('/profile?section=option3')}>
                             Fix Wallet Info
                           </Button>
-                        )}
+                        )} */}
                       </Box>
                     </div>
                   </div>
